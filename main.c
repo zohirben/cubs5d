@@ -143,7 +143,6 @@ void draw_rays(t_data *data)
 {
     float FOV_ANGLE = 60 * (M_PI / 180);
     int NUM_RAYS = WIDTH;
-    int columid = 0;
     float ray_angle = data->player->direction - (FOV_ANGLE / 2);
 
 
