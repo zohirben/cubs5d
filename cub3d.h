@@ -5,9 +5,9 @@
 #include "MLX42/include/MLX42/MLX42.h"
 #include <math.h>
 
-#define WIDTH 500
-#define HEIGHT 500
-#define TILE_SIZE 64
+#define WIDTH 1000
+#define HEIGHT 750
+#define TILE_SIZE 32
 
 typedef struct s_player
 {

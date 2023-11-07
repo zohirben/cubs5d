@@ -209,14 +209,14 @@ void cast_rays(t_data *data, float player_x, float player_y, float ray_angle)
         data->x_ray = data->x_hori;
         data->y_ray = data->y_hori;
         data->ray_distance = hori_distance;
-        // mlx_draw_line(data->img, data->player->x_map, data->player->y_map, data->x_hori, data->y_hori, get_rgba(150, 244, 255, 255));
+        mlx_draw_line(data->img, data->player->x_map, data->player->y_map, data->x_hori, data->y_hori, get_rgba(150, 244, 255, 255));
     }
     else
     {
         data->x_ray = data->x_vert;
         data->y_ray = data->y_vert;
         data->ray_distance = vert_distance;
-        // mlx_draw_line(data->img, data->player->x_map, data->player->y_map, data->x_vert, data->y_vert, get_rgba(150, 244, 255, 255));
+        mlx_draw_line(data->img, data->player->x_map, data->player->y_map, data->x_vert, data->y_vert, get_rgba(150, 244, 255, 255));
     }
     // Draw the line from player to endpoint
     // mlx_draw_line(data->img, data->player->x_map, data->player->y_map, endX, endY, get_rgba(150, 244, 255, 255));
@@ -243,8 +243,6 @@ void    draw_walls(t_data *data, int index)
     wh = (HEIGHT / data->ray_distance) * TILE_SIZE;
     y_start = (HEIGHT / 2) - (wh / 2);
     y_end = y_start + wh;
-    printf("y %f, %f\n", y_end, y_start);
-    printf("x %f, %f\n", x_end, x_start);
     mlx_draw_line(data->img, x_start, y_start, x_end, y_end, get_rgba(86, 240, 189, 255));
 }
 
@@ -265,24 +263,31 @@ void draw_rays(t_data *data)
     }
 }
 
-void    blacked(t_data *data)
+void blacked(t_data *data)
 {
-    int x;
-    int y;
+    int x = 0;
+    int y = 0;
+    int dividingLine = HEIGHT / 2;
+    uint32_t color;
 
-    y = 0;
     while (y < HEIGHT)
     {
-
         x = 0;
         while (x < WIDTH)
         {
-            mlx_put_pixel(data->img, x, y, get_rgba(20, 50, 70, 255));
+            if (y < dividingLine)
+                color = get_rgba(135, 206, 235, 255);
+            else
+                color = get_rgba(20, 50, 70, 255);
+            mlx_put_pixel(data->img, x, y, color);
             x++;
         }
+
         y++;
     }
 }
+
+
 
 void ft_hook(void *param)
 {
@@ -317,7 +322,7 @@ void ft_hook(void *param)
     else if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
         data->player->direction += 1;
     blacked(data);
-    // draw_map(data);
+    draw_map(data);
     draw_player(data);
     draw_rays(data);
 }
@@ -395,8 +400,8 @@ void draw_player(t_data *data)
 {
     mlx_put_pixel(data->img, data->player->x_map, data->player->y_map, get_rgba(187, 230, 228, 255));
     // // Calculate the endpoint of the line for POV
-    float endX = data->player->x_map + cos(data->player->direction * (M_PI / 180)) * 80;
-    float endY = data->player->y_map + sin(data->player->direction * (M_PI / 180)) * 80;
+    // float endX = data->player->x_map + cos(data->player->direction * (M_PI / 180)) * 80;
+    // float endY = data->player->y_map + sin(data->player->direction * (M_PI / 180)) * 80;
     // printf("endX = %f\nendY = %f\n", endX, endY);
 
     // Draw the line from player to endpoint
@@ -417,7 +422,6 @@ int main()
     int windowWidth = (ft_strlen(data->map[0]) - 1) * TILE_SIZE;
     int windowHeight = data->height * TILE_SIZE;
     data->mlx = mlx_init(WIDTH, HEIGHT, "UwU", true);
-    // data->img = mlx_new_image(data->mlx, windowWidth, windowHeight);
     data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 
     find_player(data);
