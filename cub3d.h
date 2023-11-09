@@ -7,7 +7,7 @@
 
 #define WIDTH 1000
 #define HEIGHT 750
-#define TILE_SIZE 32
+#define TILE_SIZE 16
 
 typedef struct s_player
 {

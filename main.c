@@ -94,23 +94,23 @@ int inside_map(t_data *data, char direction)
 
     if (direction == 'W')
     {
-        x = (data->player->x_map + cos(data->player->direction * (M_PI / 180)) * 2.2) / TILE_SIZE;
-        y = (data->player->y_map + (sin(data->player->direction * (M_PI / 180)) * 2.2)) / TILE_SIZE;
+        x = (data->player->x_map + cos(data->player->direction * (M_PI / 180)) * 1) / TILE_SIZE;
+        y = (data->player->y_map + (sin(data->player->direction * (M_PI / 180)) * 1)) / TILE_SIZE;
     }
     else if (direction == 'S')
     {
-        x = (data->player->x_map - cos(data->player->direction * (M_PI / 180)) * 2.2) / TILE_SIZE;
-        y = (data->player->y_map - sin(data->player->direction * (M_PI / 180)) * 2.2) / TILE_SIZE;
+        x = (data->player->x_map - cos(data->player->direction * (M_PI / 180)) * 1) / TILE_SIZE;
+        y = (data->player->y_map - sin(data->player->direction * (M_PI / 180)) * 1) / TILE_SIZE;
     }
     else if (direction == 'A')
     {
-        x = (data->player->x_map + sin(data->player->direction * (M_PI / 180)) * 2.2) / TILE_SIZE;
-        y = (data->player->y_map - cos(data->player->direction * (M_PI / 180)) * 2.2) / TILE_SIZE;
+        x = (data->player->x_map + sin(data->player->direction * (M_PI / 180)) * 1) / TILE_SIZE;
+        y = (data->player->y_map - cos(data->player->direction * (M_PI / 180)) * 1) / TILE_SIZE;
     }
     else if (direction == 'D')
     {
-        x = (data->player->x_map - sin(data->player->direction * (M_PI / 180)) * 2.2) / TILE_SIZE;
-        y = (data->player->y_map + cos(data->player->direction * (M_PI / 180)) * 2.2) / TILE_SIZE;
+        x = (data->player->x_map - sin(data->player->direction * (M_PI / 180)) * 1) / TILE_SIZE;
+        y = (data->player->y_map + cos(data->player->direction * (M_PI / 180)) * 1) / TILE_SIZE;
     }
     if (data->map[y][x] == '1' || x < 0 || x > data->width || y < 0 || y > data->height)
         return (1);
@@ -263,6 +263,22 @@ void draw_rays(t_data *data)
     }
 }
 
+void draw_rays_color(t_data *data)
+{
+    float FOV_ANGLE = 60;
+    int NUM_RAYS = WIDTH;
+    float ray_angle = data->player->direction - (FOV_ANGLE / 2);
+
+    int i = 0;
+    while (i < NUM_RAYS)
+    {
+        ray_angle = normalize_angle(ray_angle);
+        cast_rays(data, data->player->x_map, data->player->y_map, ray_angle);
+        ray_angle += FOV_ANGLE / WIDTH;
+        i++;
+    }
+}
+
 void blacked(t_data *data)
 {
     int x = 0;
@@ -293,7 +309,7 @@ void ft_hook(void *param)
 {
     t_data *data;
 
-    float deltaDistance = 2.2;
+    float deltaDistance = 1;
     data = param;
     if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
         mlx_close_window(data->mlx);
@@ -322,9 +338,10 @@ void ft_hook(void *param)
     else if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
         data->player->direction += 1;
     blacked(data);
+    draw_rays(data);
     draw_map(data);
     draw_player(data);
-    draw_rays(data);
+    draw_rays_color(data);
 }
 
 void draw_map(t_data *data)
