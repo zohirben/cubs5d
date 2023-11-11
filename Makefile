@@ -1,10 +1,10 @@
-SRC = main.c 
+SRC = main.c drawing/check.c drawing/dda.c drawing/draw.c drawing/render.c
 NAME = cub3d
 CC = cc
 CFLAGS = 
 RM = rm -rf
 INCLUDES = -Iinclude ./MLX42/build/libmlx42.a  -lglfw -L"/Users/zbenaiss/goinfre/homebrew/opt/glfw/lib" -fsanitize=address
-INCLUDE =
+# INCLUDE = -Iinclude
  .SILENT: 
 all: $(NAME)
 	@echo "\033[104mThe mandatory part is made\033[0m"
