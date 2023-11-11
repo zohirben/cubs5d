@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/11 18:05:22 by zbenaiss          #+#    #+#             */
+/*   Updated: 2023/11/11 19:25:22 by zbenaiss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 void printo(void *line)
@@ -45,39 +57,33 @@ void make_map(t_data *data, int fd)
     {
         ft_lstadd_back(&map_read, ft_lstnew(line));
         line = get_next_line(fd);
-        
     }
     data->map = lst_to_2darr(map_read);
-    // read_2d(data->map);
     data->height = ft_lstsize(map_read);
 }
-void mlx_draw_line(mlx_image_t *img, int x1, int y1, int x2, int y2, uint32_t color)
+void mlx_draw_line(t_data *data, int x1, int y1, int x2, int y2, uint32_t color)
 {
-    int dx = abs(x2 - x1);
-    int dy = -abs(y2 - y1);
-    int sx = x1 < x2 ? 1 : -1;
-    int sy = y1 < y2 ? 1 : -1;
-    int err = dx + dy;
-    int e2;
-
+    data->dda->dx = abs(x2 - x1);
+    data->dda->dy = -abs(y2 - y1);
+    data->dda->sx = x1 < x2 ? 1 : -1;
+    data->dda->sy = y1 < y2 ? 1 : -1;
+    data->dda->err = data->dda->dx + data->dda->dy;
     while (1)
     {
         if (x1 < WIDTH && y1 < HEIGHT && x1 > 0 && y1 > 0)
-            mlx_put_pixel(img, x1, y1, color);
-
+            mlx_put_pixel(data->img, x1, y1, color);
         if (x1 == x2 && y1 == y2)
             break;
-
-        e2 = 2 * err;
-        if (e2 >= dy)
+        data->dda->e2 = 2 * data->dda->err;
+        if (data->dda->e2 >= data->dda->dy)
         {
-            err += dy;
-            x1 += sx;
+            data->dda->err += data->dda->dy;
+            x1 += data->dda->sx;
         }
-        if (e2 <= dx)
+        if (data->dda->e2 <= data->dda->dx)
         {
-            err += dx;
-            y1 += sy;
+            data->dda->err += data->dda->dx;
+            y1 += data->dda->sy;
         }
     }
 }
@@ -87,41 +93,70 @@ int get_rgba(int r, int g, int b, int a)
     return (r << 24 | g << 16 | b << 8 | a);
 }
 
+void apply_direction(t_data *data, char direction, int *x, int *y)
+{
+    if (direction == 'W')
+    {
+        *x = (data->player->x_map + cos(data->player->direction * (M_PI / 180)) * 0.9) / TILE_SIZE;
+        *y = (data->player->y_map + (sin(data->player->direction * (M_PI / 180)) * 0.9)) / TILE_SIZE;
+    }
+    else if (direction == 'S')
+    {
+        *x = (data->player->x_map - cos(data->player->direction * (M_PI / 180)) * 0.9) / TILE_SIZE;
+        *y = (data->player->y_map - sin(data->player->direction * (M_PI / 180)) * 0.9) / TILE_SIZE;
+    }
+    else if (direction == 'A')
+    {
+        *x = (data->player->x_map + sin(data->player->direction * (M_PI / 180)) * 0.9) / TILE_SIZE;
+        *y = (data->player->y_map - cos(data->player->direction * (M_PI / 180)) * 0.9) / TILE_SIZE;
+    }
+    else if (direction == 'D')
+    {
+        *x = (data->player->x_map - sin(data->player->direction * (M_PI / 180)) * 0.9) / TILE_SIZE;
+        *y = (data->player->y_map + cos(data->player->direction * (M_PI / 180)) * 0.9) / TILE_SIZE;
+    }
+}
+
 int inside_map(t_data *data, char direction)
 {
     int x;
     int y;
 
-    if (direction == 'W')
-    {
-        x = (data->player->x_map + cos(data->player->direction * (M_PI / 180)) * 1) / TILE_SIZE;
-        y = (data->player->y_map + (sin(data->player->direction * (M_PI / 180)) * 1)) / TILE_SIZE;
-    }
-    else if (direction == 'S')
-    {
-        x = (data->player->x_map - cos(data->player->direction * (M_PI / 180)) * 1) / TILE_SIZE;
-        y = (data->player->y_map - sin(data->player->direction * (M_PI / 180)) * 1) / TILE_SIZE;
-    }
-    else if (direction == 'A')
-    {
-        x = (data->player->x_map + sin(data->player->direction * (M_PI / 180)) * 1) / TILE_SIZE;
-        y = (data->player->y_map - cos(data->player->direction * (M_PI / 180)) * 1) / TILE_SIZE;
-    }
-    else if (direction == 'D')
-    {
-        x = (data->player->x_map - sin(data->player->direction * (M_PI / 180)) * 1) / TILE_SIZE;
-        y = (data->player->y_map + cos(data->player->direction * (M_PI / 180)) * 1) / TILE_SIZE;
-    }
+    apply_direction(data, direction, &x, &y);
     if (data->map[y][x] == '1' || x < 0 || x > data->width || y < 0 || y > data->height)
         return (1);
     return (0);
 }
-
-void calculate_horizontal(t_data *data, float ray_angle)
+void check_walls(t_data *data, int is_horizontal)
 {
     int x;
     int y;
 
+    x = data->x_ray / TILE_SIZE;
+    y = data->y_ray / TILE_SIZE;
+    while (1)
+    {
+        if (x < 0 || x >= data->width || y < 0 || y >= data->height || data->map[y][x] == '1')
+            break;
+        data->x_ray += data->x_step;
+        data->y_ray += data->y_step;
+        x = data->x_ray / TILE_SIZE;
+        y = data->y_ray / TILE_SIZE;
+    }
+    if (is_horizontal)
+    {
+        data->x_hori = data->x_ray;
+        data->y_hori = data->y_ray;
+    }
+    else
+    {
+        data->x_vert = data->x_ray;
+        data->y_vert = data->y_ray;
+    }
+}
+
+void calculate_horizontal(t_data *data, float ray_angle)
+{
     if (ray_angle == 0 || ray_angle == 180)
         return;
     if (ray_angle > 0 && ray_angle < 180)
@@ -136,33 +171,16 @@ void calculate_horizontal(t_data *data, float ray_angle)
     }
     data->x_ray = ((data->y_ray - (data->player->y_map)) / tan(ray_angle * (M_PI / 180))) + data->player->x_map;
     data->x_step = data->y_step / tan(ray_angle * (M_PI / 180));
-    x = data->x_ray / TILE_SIZE;
-    y = data->y_ray / TILE_SIZE;
-    while (1)
-    {
-        if (x < 0 || x >= data->width || y < 0 || y >= data->height || data->map[y][x] == '1')
-            break;
-        data->x_ray += data->x_step;
-        data->y_ray += data->y_step;
-        // printf("x = %i\n")
-        x = data->x_ray / TILE_SIZE;
-        y = data->y_ray / TILE_SIZE;
-    }
-    data->x_hori = data->x_ray;
-    data->y_hori = data->y_ray;
-    // mlx_draw_line(data->img, data->player->x_map, data->player->y_map, data->x_ray, data->y_ray, get_rgba(150, 244, 255, 255));
+    check_walls(data, 1);
 }
 
 void calculate_vertical(t_data *data, float ray_angle)
 {
-    int x;
-    int y;
-
     if (ray_angle == 90 || ray_angle == 270)
         return;
     if (ray_angle > 90 && ray_angle < 270)
     {
-        
+
         data->x_ray = (((int)data->player->x_map / TILE_SIZE) - 0.00001) * TILE_SIZE;
         data->x_step = -TILE_SIZE;
     }
@@ -173,20 +191,25 @@ void calculate_vertical(t_data *data, float ray_angle)
     }
     data->y_ray = ((data->x_ray - (data->player->x_map)) * tan(ray_angle * (M_PI / 180))) + data->player->y_map;
     data->y_step = data->x_step * tan(ray_angle * (M_PI / 180));
-    x = data->x_ray / TILE_SIZE;
-    y = data->y_ray / TILE_SIZE;
-    while (1)
+    check_walls(data, 0);
+}
+
+void check_closest_distance(t_data *data, float hori_distance, float vert_distance)
+{
+    if (hori_distance < vert_distance)
     {
-        if (x < 0 || x >= data->width || y < 0 || y >= data->height || data->map[y][x] == '1')
-            break;
-        data->x_ray += data->x_step;
-        data->y_ray += data->y_step;
-        // printf("x = %i\n")
-        x = data->x_ray / TILE_SIZE;
-        y = data->y_ray / TILE_SIZE;
+        data->x_ray = data->x_hori;
+        data->y_ray = data->y_hori;
+        data->ray_distance = hori_distance;
+        mlx_draw_line(data, data->player->x_map, data->player->y_map, data->x_hori, data->y_hori, get_rgba(150, 244, 255, 255));
     }
-    data->x_vert = data->x_ray;
-    data->y_vert = data->y_ray;
+    else
+    {
+        data->x_ray = data->x_vert;
+        data->y_ray = data->y_vert;
+        data->ray_distance = vert_distance;
+        mlx_draw_line(data, data->player->x_map, data->player->y_map, data->x_vert, data->y_vert, get_rgba(150, 244, 255, 255));
+    }
 }
 
 void cast_rays(t_data *data, float player_x, float player_y, float ray_angle)
@@ -204,22 +227,7 @@ void cast_rays(t_data *data, float player_x, float player_y, float ray_angle)
     a = data->player->x_map - data->x_ray;
     b = data->player->y_map - data->y_ray;
     vert_distance = sqrt(pow(a, 2) + pow(b, 2));
-    if (hori_distance < vert_distance)
-    {
-        data->x_ray = data->x_hori;
-        data->y_ray = data->y_hori;
-        data->ray_distance = hori_distance;
-        mlx_draw_line(data->img, data->player->x_map, data->player->y_map, data->x_hori, data->y_hori, get_rgba(150, 244, 255, 255));
-    }
-    else
-    {
-        data->x_ray = data->x_vert;
-        data->y_ray = data->y_vert;
-        data->ray_distance = vert_distance;
-        mlx_draw_line(data->img, data->player->x_map, data->player->y_map, data->x_vert, data->y_vert, get_rgba(150, 244, 255, 255));
-    }
-    // Draw the line from player to endpoint
-    // mlx_draw_line(data->img, data->player->x_map, data->player->y_map, endX, endY, get_rgba(150, 244, 255, 255));
+    check_closest_distance(data, hori_distance, vert_distance);
 }
 float normalize_angle(float ray_angle)
 {
@@ -230,7 +238,7 @@ float normalize_angle(float ray_angle)
     return (ray_angle);
 }
 
-void    draw_walls(t_data *data, int index)
+void draw_walls(t_data *data, int index)
 {
     float wh;
     float x_start;
@@ -243,7 +251,7 @@ void    draw_walls(t_data *data, int index)
     wh = (HEIGHT / data->ray_distance) * TILE_SIZE;
     y_start = (HEIGHT / 2) - (wh / 2);
     y_end = y_start + wh;
-    mlx_draw_line(data->img, x_start, y_start, x_end, y_end, get_rgba(86, 240, 189, 255));
+    mlx_draw_line(data, x_start, y_start, x_end, y_end, get_rgba(86, 240, 189, 255));
 }
 
 void draw_rays(t_data *data)
@@ -303,55 +311,82 @@ void blacked(t_data *data)
     }
 }
 
-
-
-void ft_hook(void *param)
+void key_movements(t_data *data, float delta_distance)
 {
-    t_data *data;
-
-    float deltaDistance = 1;
-    data = param;
     if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
         mlx_close_window(data->mlx);
     else if (mlx_is_key_down(data->mlx, MLX_KEY_A) && inside_map(data, 'A') != 1)
     {
-        data->player->x_map += sin(data->player->direction * (M_PI / 180)) * deltaDistance;
-        data->player->y_map -= cos(data->player->direction * (M_PI / 180)) * deltaDistance;
+        data->player->x_map += sin(data->player->direction * (M_PI / 180)) * delta_distance;
+        data->player->y_map -= cos(data->player->direction * (M_PI / 180)) * delta_distance;
     }
     else if (mlx_is_key_down(data->mlx, MLX_KEY_D) && inside_map(data, 'D') != 1)
     {
-        data->player->x_map -= sin(data->player->direction * (M_PI / 180)) * deltaDistance;
-        data->player->y_map += cos(data->player->direction * (M_PI / 180)) * deltaDistance;
+        data->player->x_map -= sin(data->player->direction * (M_PI / 180)) * delta_distance;
+        data->player->y_map += cos(data->player->direction * (M_PI / 180)) * delta_distance;
     }
     else if (mlx_is_key_down(data->mlx, MLX_KEY_W) && inside_map(data, 'W') != 1)
     {
-        data->player->x_map += cos(data->player->direction * (M_PI / 180)) * deltaDistance;
-        data->player->y_map += sin(data->player->direction * (M_PI / 180)) * deltaDistance;
+        data->player->x_map += cos(data->player->direction * (M_PI / 180)) * delta_distance;
+        data->player->y_map += sin(data->player->direction * (M_PI / 180)) * delta_distance;
     }
     else if (mlx_is_key_down(data->mlx, MLX_KEY_S) && inside_map(data, 'S') != 1)
     {
-        data->player->x_map -= cos(data->player->direction * (M_PI / 180)) * deltaDistance;
-        data->player->y_map -= sin(data->player->direction * (M_PI / 180)) * deltaDistance;
+        data->player->x_map -= cos(data->player->direction * (M_PI / 180)) * delta_distance;
+        data->player->y_map -= sin(data->player->direction * (M_PI / 180)) * delta_distance;
     }
+}
+
+void ft_hook(void *param)
+{
+    t_data *data;
+    float delta_distance;
+
+    data = param;
+    delta_distance = 0.8;
+    key_movements(data, delta_distance);
     if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
         data->player->direction -= 1;
     else if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
         data->player->direction += 1;
+    data->dda = malloc(sizeof(t_dda));
     blacked(data);
     draw_rays(data);
     draw_map(data);
     draw_player(data);
     draw_rays_color(data);
+    free(data->dda);
+}
+
+void draw_map2(t_data *data, int x, int y)
+{
+    int i;
+    int j;
+    uint32_t color;
+
+    i = y * TILE_SIZE;
+    while (i < ((y * TILE_SIZE) + TILE_SIZE))
+    {
+        j = x * TILE_SIZE;
+        while (j < ((x * TILE_SIZE) + TILE_SIZE))
+        {
+            if (data->map[y][x] == '1')
+                color = get_rgba(20, 50, 70, 255);
+            else if (data->map[y][x] == '0' || data->map[y][x] == 'P')
+                color = get_rgba(200, 100, 70, 255);
+            else
+                color = get_rgba(20, 50, 70, 255);
+            mlx_put_pixel(data->img, j, i, color);
+            j++;
+        }
+        i++;
+    }
 }
 
 void draw_map(t_data *data)
 {
     int x;
     int y;
-    int i;
-    int j;
-    uint32_t color;
-    char tile;
 
     y = 0;
     while (data->map[y])
@@ -359,23 +394,7 @@ void draw_map(t_data *data)
         x = 0;
         while (data->map[y][x] && data->map[y][x] != '\n')
         {
-            i = y * TILE_SIZE;
-            while (i < ((y * TILE_SIZE) + TILE_SIZE))
-            {
-                j = x * TILE_SIZE;
-                while (j < ((x * TILE_SIZE) + TILE_SIZE))
-                {
-                    if (data->map[y][x] == '1')
-                        color = get_rgba(20, 50, 70, 255);
-                    else if (data->map[y][x] == '0' || data->map[y][x] == 'P')
-                        color = get_rgba(200, 100, 70, 255);
-                    else
-                        color = get_rgba(20, 50, 70, 255);
-                    mlx_put_pixel(data->img, j, i, color);
-                    j++;
-                }
-                i++;
-            }
+            draw_map2(data, x, y);
             x++;
         }
         y++;
@@ -416,13 +435,6 @@ void find_player(t_data *data)
 void draw_player(t_data *data)
 {
     mlx_put_pixel(data->img, data->player->x_map, data->player->y_map, get_rgba(187, 230, 228, 255));
-    // // Calculate the endpoint of the line for POV
-    // float endX = data->player->x_map + cos(data->player->direction * (M_PI / 180)) * 80;
-    // float endY = data->player->y_map + sin(data->player->direction * (M_PI / 180)) * 80;
-    // printf("endX = %f\nendY = %f\n", endX, endY);
-
-    // Draw the line from player to endpoint
-    // mlx_draw_line(data->img, data->player->x_map, data->player->y_map, endX, endY, get_rgba(150, 244, 255, 255));
 }
 
 int main()
@@ -436,8 +448,6 @@ int main()
     if (fd == -1)
         exit(1);
     make_map(data, fd);
-    int windowWidth = (ft_strlen(data->map[0]) - 1) * TILE_SIZE;
-    int windowHeight = data->height * TILE_SIZE;
     data->mlx = mlx_init(WIDTH, HEIGHT, "UwU", true);
     data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 
