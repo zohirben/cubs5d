@@ -78,5 +78,6 @@ void mlx_draw_line(t_data *data, int x1, int y1, int x2, int y2, uint32_t color)
 int get_rgba(int r, int g, int b, int a);
 t_player *assign_player(int x, int y, int color);
 void find_player(t_data *data);
+void    free_game(t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 19:48:07 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/11/11 21:13:08 by zbenaiss         ###   ########.fr       */
+/*   Updated: 2023/11/13 15:41:56 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char **lst_to_2darr(t_list *lst)
     char **map;
     int len;
     int i;
+    char *temp;
 
     i = 0;
     len = ft_lstsize(lst);
@@ -27,7 +28,9 @@ char **lst_to_2darr(t_list *lst)
     {
         map[i] = ft_strdup(lst->content);
         i++;
+        temp = lst->content;
         lst = lst->next;
+        free(temp);
     }
     map[i] = NULL;
     return (map);
@@ -56,6 +59,7 @@ void make_map(t_data *data, int fd)
     }
     data->map = lst_to_2darr(map_read);
     data->height = ft_lstsize(map_read);
+    ft_lstclear(&map_read, free);
 }
 void mlx_draw_line(t_data *data, int x1, int y1, int x2, int y2, uint32_t color)
 {
@@ -116,7 +120,24 @@ t_player *assign_player(int x, int y, int color)
 {
     t_player *player;
 
+    player = malloc(sizeof(t_player));
+    if (!player)
+        exit(1);
     player->x = x;
     player->y = y;
     return (player);
+}
+
+void    free_game(t_data *data)
+{
+    int i;
+    
+    free(data->dda);
+    i = 0;
+    while (data->map[i] != NULL)
+    {
+        free(data->map[i]);
+        i++;
+    }
+    free(data->map);
 }

@@ -3,7 +3,7 @@ NAME = cub3d
 CC = cc
 CFLAGS = 
 RM = rm -rf
-INCLUDES = -Iinclude ./MLX42/build/libmlx42.a  -lglfw -L"/Users/zbenaiss/goinfre/homebrew/opt/glfw/lib" -fsanitize=address
+INCLUDES = -Iinclude ./MLX42/build/libmlx42.a  -lglfw -L"/Users/zbenaiss/goinfre/homebrew/opt/glfw/lib"
 # INCLUDE = -Iinclude
  .SILENT: 
 all: $(NAME)
