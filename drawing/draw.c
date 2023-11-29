@@ -6,7 +6,7 @@
 /*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 19:36:42 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/11/29 20:50:27 by zbenaiss         ###   ########.fr       */
+/*   Updated: 2023/11/29 20:52:10 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,5 @@ void	draw_walls(t_data *data, int index)
 	wh = (HEIGHT / data->ray_distance) * TILE_SIZE;
 	y_start = (HEIGHT / 2) - (wh / 2);
 	y_end = y_start + wh;
-	ft_draw_textures(data, x_start, y_start, y_end);
+	// ft_draw_textures(data, x_start, y_start, y_end);
 }
