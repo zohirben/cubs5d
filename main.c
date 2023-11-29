@@ -6,7 +6,7 @@
 /*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 18:05:22 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/11/13 16:00:54 by zbenaiss         ###   ########.fr       */
+/*   Updated: 2023/11/29 20:31:15 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void ft_hook(void *param)
     draw_rays(data);
     draw_map(data);
     draw_player(data);
-    draw_rays_color(data);
+    // draw_rays_color(data);
 }
 
 

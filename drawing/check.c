@@ -6,7 +6,7 @@
 /*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 19:44:24 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/11/24 17:25:58 by zbenaiss         ###   ########.fr       */
+/*   Updated: 2023/11/29 19:54:46 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ float normalize_angle(float ray_angle)
 
 void check_closest_distance(t_data *data, float hori_distance, float vert_distance)
 {
+    data->is_hor = 0;
     if (hori_distance < vert_distance)
     {
+        data->is_hor = 1;
         data->x_ray = data->x_hori;
         data->y_ray = data->y_hori;
         data->ray_distance = hori_distance;
