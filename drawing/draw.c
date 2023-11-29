@@ -6,7 +6,7 @@
 /*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 19:36:42 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/11/11 21:28:59 by zbenaiss         ###   ########.fr       */
+/*   Updated: 2023/11/26 00:24:30 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void draw_map2(t_data *data, int x, int y)
                 color = get_rgba(200, 100, 70, 255);
             else
                 color = get_rgba(20, 50, 70, 255);
+            if (j > WIDTH || i > HEIGHT )
+                exit(1);
             mlx_put_pixel(data->img, j, i, color);
             j++;
         }

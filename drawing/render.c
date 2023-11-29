@@ -6,7 +6,7 @@
 /*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 19:40:40 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/11/11 21:57:22 by zbenaiss         ###   ########.fr       */
+/*   Updated: 2023/11/29 19:02:11 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,17 @@ void draw_rays(t_data *data)
 
 void draw_rays_color(t_data *data)
 {
-    float FOV_ANGLE = 60;
-    int NUM_RAYS = WIDTH;
-    float ray_angle = data->player->direction - (FOV_ANGLE / 2);
+    float FOV_ANGLE;
+    int NUM_RAYS;
+    int i;
+    float ray_angle;
 
-    int i = 0;
+    NUM_RAYS = WIDTH;
+    ray_angle = data->player->direction - (FOV_ANGLE / 2);
+    FOV_ANGLE = 60;
+    i = 0;
     while (i < NUM_RAYS)
     {
-        // printf("%f\n",ray_angle);
         ray_angle = normalize_angle(ray_angle);
         cast_rays(data, data->player->x_map, data->player->y_map, ray_angle);
         ray_angle += FOV_ANGLE / WIDTH;
