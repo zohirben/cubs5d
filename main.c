@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 18:05:22 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/11/30 18:16:27 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/11/30 23:49:26 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ int textures_checker(char **strs, t_color *floor, t_color *ceiling, t_var *vars,
 	}
 	return vars->count;
 }
-int check_textures(char **strs, t_textures *t, t_color *floor, t_color *ceiling)
+int check_textures(char **strs, t_textures *t, t_data *data)
 {
 	t_var vars;
 	vars.i = 0;
@@ -183,7 +183,7 @@ int check_textures(char **strs, t_textures *t, t_color *floor, t_color *ceiling)
 	int signal = 0;
 	count = 0;
 
-	count = textures_checker(strs, floor, ceiling, &vars, t);
+	count = textures_checker(strs, &data->floor, &data->ceiling, &vars, t);
 	if (count != 6)
 	{
 		printf("error check the textures or the rgb\n");
@@ -264,8 +264,7 @@ int main(int ac, char **av)
 	char **strs;
 	int i;
 	t_textures t;
-	t_color floor;
-	t_color ceiling;
+	
 	t_data data;
 	t_window win;
 	t_playerme playerme;
@@ -275,7 +274,7 @@ int main(int ac, char **av)
 	{
 		i = ft_count_map(av[1]);
 		strs = fill_strs(i, av[1]);
-		i = check_textures(strs, &t, &floor, &ceiling);
+		i = check_textures(strs, &t, &data);
 		ft_start(i, strs, &win);
 		ft_mlx_begin(&playerme, &t, &data, &win);
 	}

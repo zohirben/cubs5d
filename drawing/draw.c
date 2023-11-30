@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 19:36:42 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/11/30 18:21:52 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/11/30 23:41:39 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,9 @@ void	blacked(t_data *data)
 		while (x < WIDTH)
 		{
 			if (y < line)
-				color = get_rgba(135, 206, 235, 255);
+				color = get_rgba(data->ceiling.r, data->ceiling.g, data->ceiling.b, 255);
 			else
-				color = get_rgba(20, 50, 70, 255);
+				color = get_rgba(data->floor.r, data->floor.g, data->floor.b, 255);
 			mlx_put_pixel(data->img, x, y, color);
 			x++;
 		}

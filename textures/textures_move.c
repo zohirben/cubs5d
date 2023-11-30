@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures_move.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 01:13:32 by sbellafr          #+#    #+#             */
-/*   Updated: 2023/11/29 22:17:44 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/11/30 23:50:33 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	ft_draw_textures(t_data *data, float x_img, float y_start, float y_end)
 	wall_height = y_end - y_start;
 	f.y_img = y_start;
 	ver_or_hor(&f.x_txt, data);
+		
 	f.y_txt = 0;
 	f.y_increment = data->txt->height / wall_height;
 	while (f.y_txt <= data->txt->height && f.y_img <= y_end)

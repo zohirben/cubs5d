@@ -31,6 +31,13 @@ typedef struct s_dda
     int e2;
 
 } t_dda;
+
+typedef struct s_color
+{
+	int	r;
+	int	b;
+	int	g;
+}t_color;
 typedef struct s_data
 {
     char **map;
@@ -59,6 +66,8 @@ typedef struct s_data
     mlx_t *mlx;
     mlx_image_t *img;
     t_dda *dda;
+	t_color floor;
+	t_color ceiling;
 } t_data;
 typedef struct s_textures
 {
@@ -71,12 +80,7 @@ typedef struct s_textures
 
 }t_textures;
 
-typedef struct s_color
-{
-	int	r;
-	int	b;
-	int	g;
-}t_color;
+
 
 typedef struct s_map
 {
