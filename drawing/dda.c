@@ -6,7 +6,7 @@
 /*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 19:48:07 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/11/30 15:38:14 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/11/30 18:21:23 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	find_player(t_data *data)
 		j = 0;
 		while (data->map[i][j] && data->map[i][j] != '\n')
 		{
-			if (data->map[i][j] == 'N')
+			if (data->map[i][j] == 'N' || data->map[i][j] == 'E' || data->map[i][j] == 'W' || data->map[i][j] == 'S'  )
 			{
 				data->player = assign_player(j, i, get_rgba(20, 100, 93, 255));
 				break ;

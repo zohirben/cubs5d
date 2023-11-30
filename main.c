@@ -6,7 +6,7 @@
 /*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 18:05:22 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/11/29 22:26:11 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/11/30 18:16:27 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void key_movements(t_data *data, float delta_distance)
 {
     if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
     {
-        mlx_close_window(data->mlx);
         free_game(data);
+        mlx_close_window(data->mlx);
     }
     else if (mlx_is_key_down(data->mlx, MLX_KEY_A) && inside_map(data, 'A') != 1)
     {
@@ -53,11 +53,9 @@ void ft_hook(void *param)
     else if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
         data->player->direction += 1;
     blacked(data);
-	// exit(0);
     draw_map(data);
     draw_player(data);
     draw_rays(data);
-    // draw_rays_color(data);
 }
 
 

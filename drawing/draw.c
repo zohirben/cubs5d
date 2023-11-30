@@ -6,7 +6,7 @@
 /*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 19:36:42 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/11/30 15:38:25 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/11/30 18:21:52 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	draw_map2(t_data *data, int x, int y)
 		{
 			if (data->map[y][x] == '1')
 				color = get_rgba(20, 50, 70, 255);
-			else if (data->map[y][x] == '0' || data->map[y][x] == 'N')
+			else if (data->map[y][x] == '0' || data->map[y][x] == 'N' || data->map[y][x] == 'E' || data->map[y][x] == 'W' || data->map[y][x] == 'S' )
 				color = get_rgba(200, 100, 70, 255);
 			else
 				color = get_rgba(20, 50, 70, 255);

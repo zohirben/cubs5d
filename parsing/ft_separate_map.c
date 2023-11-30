@@ -6,7 +6,7 @@
 /*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 01:50:11 by sbellafr          #+#    #+#             */
-/*   Updated: 2023/11/29 01:52:16 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/11/30 18:18:07 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,13 @@ void	ft_start(int i, char **strs, t_window *win)
 		i++;
 	i++;
 	check_tab(strs);
+
 	while (strs[i])
 	{
 		if (ft_strlen(strs[i]) > win->map.lenght)
 			win->map.lenght = ft_strlen(strs[i]);
-		win->map.mapo[j] = ft_calloc(ft_strlen(strs[i]) + 2, 1);
-		win->map.mapo[j] = strs[i];
+		win->map.mapo[j] = ft_strdup(strs[i]);
+		free(strs[i]);
 		j++;
 		i++;
 	}

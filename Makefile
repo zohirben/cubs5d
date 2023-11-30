@@ -5,7 +5,7 @@ SRC = main.c drawing/check.c drawing/dda.c drawing/draw.c drawing/render.c \
 
 NAME = cub3d
 CC = cc
-CFLAGS =
+CFLAGS = 
 RM = rm -rf
 INCLUDES = -Iinclude ./MLX42/libmlx42.a  -lglfw -L"/Users/sbellafr/.brew/opt/glfw/lib" 
 INCLUDE =
