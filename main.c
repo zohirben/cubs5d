@@ -6,7 +6,7 @@
 /*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 18:05:22 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/11/30 18:16:27 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/11/30 22:59:05 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,6 @@ char **fill_strs(int len, char *str)
 
 	i = 0;
 	fd = open(str, O_RDWR);
-
 	char **strs = (char **)ft_calloc(len + 1, sizeof(char *));
 	while (1)
 	{
@@ -274,6 +273,11 @@ int main(int ac, char **av)
 	if (ac == 2)
 	{
 		i = ft_count_map(av[1]);
+		if(i == 0)
+		{
+			printf("the file is empty or not exist\n");
+			exit(2);
+		}
 		strs = fill_strs(i, av[1]);
 		i = check_textures(strs, &t, &floor, &ceiling);
 		ft_start(i, strs, &win);
