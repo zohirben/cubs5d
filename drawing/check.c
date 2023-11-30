@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
+/*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 19:44:24 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/11/29 20:42:35 by zbenaiss         ###   ########.fr       */
+/*   Updated: 2023/11/29 22:34:47 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	check_closest_distance(t_data *data, float hori_distance,
 		data->x_ray = data->x_hori;
 		data->y_ray = data->y_hori;
 		data->ray_distance = hori_distance;
-		mlx_draw_line(data, data->player->x_map, data->player->y_map,
+		mlx_draw_line(data->img, data->player->x_map, data->player->y_map,
 			data->x_hori, data->y_hori, get_rgba(150, 244, 255, 255));
 	}
 	else
@@ -41,7 +41,7 @@ void	check_closest_distance(t_data *data, float hori_distance,
 		data->x_ray = data->x_vert;
 		data->y_ray = data->y_vert;
 		data->ray_distance = vert_distance;
-		mlx_draw_line(data, data->player->x_map, data->player->y_map,
+		mlx_draw_line(data->img, data->player->x_map, data->player->y_map,
 			data->x_vert, data->y_vert, get_rgba(150, 244, 255, 255));
 	}
 }

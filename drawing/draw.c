@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
+/*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 19:36:42 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/11/29 20:55:03 by zbenaiss         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:38:25 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ void	draw_map2(t_data *data, int x, int y)
 		{
 			if (data->map[y][x] == '1')
 				color = get_rgba(20, 50, 70, 255);
-			else if (data->map[y][x] == '0' || data->map[y][x] == 'P')
+			else if (data->map[y][x] == '0' || data->map[y][x] == 'N')
 				color = get_rgba(200, 100, 70, 255);
 			else
 				color = get_rgba(20, 50, 70, 255);
 			if (j > WIDTH || i > HEIGHT)
 				exit(1);
-			mlx_put_pixel(data->img, j, i, color);
+			mlx_put_pixel(data->imgmap, j, i, color);
 			j++;
 		}
 		i++;

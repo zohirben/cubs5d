@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
+/*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 19:48:07 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/11/29 20:44:02 by zbenaiss         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:38:14 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,30 +63,37 @@ void	make_map(t_data *data, int fd)
 	ft_lstclear(&map_read, free);
 }
 
-void	mlx_draw_line(t_data *data, int x1, int y1, int x2, int y2,
-		uint32_t color)
+void mlx_draw_line(mlx_image_t *img, int x1, int y1, int x2, int y2,
+				   uint32_t color)
 {
-	data->dda->dx = abs(x2 - x1);
-	data->dda->dy = -abs(y2 - y1);
-	data->dda->sx = x1 < x2 ? 1 : -1;
-	data->dda->sy = y1 < y2 ? 1 : -1;
-	data->dda->err = data->dda->dx + data->dda->dy;
+	int dx;
+	int dy;
+	int sx;
+	int sy;
+	int err;
+	int e2;
+
+	dx = abs(x2 - x1);
+	dy = -abs(y2 - y1);
+	sx = x1 < x2 ? 1 : -1;
+	sy = y1 < y2 ? 1 : -1;
+	err = dx + dy;
 	while (1)
 	{
 		if (x1 < WIDTH && y1 < HEIGHT && x1 > 0 && y1 > 0)
-			mlx_put_pixel(data->img, x1, y1, color);
+			mlx_put_pixel(img, x1, y1, color);
 		if (x1 == x2 && y1 == y2)
-			break ;
-		data->dda->e2 = 2 * data->dda->err;
-		if (data->dda->e2 >= data->dda->dy)
+			break;
+		e2 = 2 * err;
+		if (e2 >= dy)
 		{
-			data->dda->err += data->dda->dy;
-			x1 += data->dda->sx;
+			err += dy;
+			x1 += sx;
 		}
-		if (data->dda->e2 <= data->dda->dx)
+		if (e2 <= dx)
 		{
-			data->dda->err += data->dda->dx;
-			y1 += data->dda->sy;
+			err += dx;
+			y1 += sy;
 		}
 	}
 }
@@ -107,7 +114,7 @@ void	find_player(t_data *data)
 		j = 0;
 		while (data->map[i][j] && data->map[i][j] != '\n')
 		{
-			if (data->map[i][j] == 'P')
+			if (data->map[i][j] == 'N')
 			{
 				data->player = assign_player(j, i, get_rgba(20, 100, 93, 255));
 				break ;
