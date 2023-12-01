@@ -31,6 +31,13 @@ typedef struct s_dda
     int e2;
 
 } t_dda;
+
+typedef struct s_color
+{
+	int	r;
+	int	b;
+	int	g;
+}t_color;
 typedef struct s_data
 {
     char **map;
@@ -59,6 +66,8 @@ typedef struct s_data
     mlx_t *mlx;
     mlx_image_t *img;
     t_dda *dda;
+	t_color floor;
+	t_color ceiling;
 } t_data;
 typedef struct s_textures
 {
@@ -71,12 +80,7 @@ typedef struct s_textures
 
 }t_textures;
 
-typedef struct s_color
-{
-	int	r;
-	int	b;
-	int	g;
-}t_color;
+
 
 typedef struct s_map
 {
@@ -163,12 +167,11 @@ int check_no(char **strs, t_var *vars, t_textures *t);
 int check_so(char **strs, t_var *vars, t_textures *t);
 int check_ea(char **strs, t_var *vars, t_textures *t);
 int check_we(char **strs, t_var *vars, t_textures *t);
-void ft_rgb(char *str, t_color *color);
-void ft_rgb_c(char *str, t_color *color);
-int	rgb_f(char **strs, t_color *floor, t_textures *t, t_var *vars);
-int	rgb_c(char **strs, t_color *floor, t_textures *t, t_var *vars);
-void ft_rgb(char *str, t_color *color);
-void ft_rgb_c(char *str, t_color *color);
+
+int	rgb_f(char **strs, t_data *data, t_textures *t, t_var *vars);
+int	rgb_c(char **strs, t_data *data, t_textures *t, t_var *vars);
+void ft_rgb(char *str, t_data *data);
+void ft_rgb_c(char *str, t_data *data);
 char *ft_textures(char *str, int i);
 void ft_draw_textures(t_data *data, float x_img, float y_start, float y_end);
 void	check_map(char **strs);

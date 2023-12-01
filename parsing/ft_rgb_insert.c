@@ -6,13 +6,13 @@
 /*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 23:48:41 by sbellafr          #+#    #+#             */
-/*   Updated: 2023/11/28 17:37:55 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/12/01 01:01:14 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	ft_rgb_one(char *str, int i, t_color *color)
+int	ft_rgb_one(char *str, int i, t_data *data)
 {
 	char	*buffer;
 	int		j;
@@ -30,9 +30,9 @@ int	ft_rgb_one(char *str, int i, t_color *color)
 		printf("please check the rgb\n");
 		exit(2);
 	}
-	color->r = ft_atoi(buffer);
+	data->floor.r = ft_atoi(buffer);
 	free(buffer);
-	if (color->r > 255 || color->r < 0)
+	if (data->floor.r > 255 || data->floor.r < 0)
 	{
 		printf("error check the number in the rgb\n");
 		exit(2);
@@ -40,7 +40,7 @@ int	ft_rgb_one(char *str, int i, t_color *color)
 	return (i);
 }
 
-int	ft_rgb_two(char *str, int i, t_color *color)
+int	ft_rgb_two(char *str, int i, t_data *data)
 {
 	char	*buffer;
 	int		j;
@@ -58,9 +58,9 @@ int	ft_rgb_two(char *str, int i, t_color *color)
 		printf("please check the rgb\n");
 		exit(2);
 	}
-	color->g = ft_atoi(buffer);
+	data->floor.g = ft_atoi(buffer);
 	free(buffer);
-	if (color->g > 255 || color->g < 0)
+	if (data->floor.g > 255 || data->floor.g < 0)
 	{
 		printf("error check the number in the rgb\n");
 		exit(2);
@@ -68,7 +68,7 @@ int	ft_rgb_two(char *str, int i, t_color *color)
 	return (i);
 }
 
-int	ft_rgb_three(char *str, int i, t_color *color)
+int	ft_rgb_three(char *str, int i, t_data *data)
 {
 	char	*buffer;
 	int		j;
@@ -86,9 +86,9 @@ int	ft_rgb_three(char *str, int i, t_color *color)
 		printf("please check the rgb\n");
 		exit(2);
 	}
-	color->b = ft_atoi(buffer);
+	data->floor.b = ft_atoi(buffer);
 	free(buffer);
-	if (color->b > 255 || color->b < 0)
+	if (data->floor.b > 255 || data->floor.b < 0)
 	{
 		printf("error check the number in the rgb\n");
 		exit(2);
@@ -96,7 +96,7 @@ int	ft_rgb_three(char *str, int i, t_color *color)
 	return (i);
 }
 
-void	ft_rgb(char *str, t_color *color)
+void	ft_rgb(char *str, t_data *data)
 {
 	int		i;
 	int		j;
@@ -108,9 +108,9 @@ void	ft_rgb(char *str, t_color *color)
 		if (ft_isalpha(str[i]))
 		{
 			i++;
-			i = ft_rgb_one(str, i, color);
-			i = ft_rgb_two(str, i, color);
-			i = ft_rgb_three(str, i, color);
+			i = ft_rgb_one(str, i, data);
+			i = ft_rgb_two(str, i, data);
+			i = ft_rgb_three(str, i, data);
 		}
 	}
 	i = -1;
