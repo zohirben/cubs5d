@@ -6,7 +6,7 @@
 /*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 19:40:40 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/11/30 23:41:13 by zbenaiss         ###   ########.fr       */
+/*   Updated: 2023/12/02 16:56:04 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ void	calculate_vertical(t_data *data, float ray_angle)
 	check_walls(data, 0);
 }
 
-void cast_rays(t_data *data, float player_x, float player_y, float ray_angle)
+void	cast_rays(t_data *data, float player_x, float player_y, float ray_angle)
 {
-	float hori_distance;
-	float vert_distance;
-	float a;
-	float b;
+	float	hori_distance;
+	float	vert_distance;
+	float	a;
+	float	b;
 
 	calculate_horizontal(data, ray_angle);
 	a = data->player->x_map - data->x_ray;
@@ -73,24 +73,7 @@ void cast_rays(t_data *data, float player_x, float player_y, float ray_angle)
 	a = data->player->x_map - data->x_ray;
 	b = data->player->y_map - data->y_ray;
 	vert_distance = sqrt(pow(a, 2) + pow(b, 2));
-	data->is_hor = 0;
-	if (hori_distance < vert_distance)
-	{
-		data->is_hor = 1;
-		data->x_ray = data->x_hori;
-		data->y_ray = data->y_hori;
-		data->ray_distance = hori_distance;
-		mlx_draw_line(data->imgmap, data->player->x_map, data->player->y_map,
-					  data->x_hori, data->y_hori, get_rgba(150, 244, 255, 255));
-	}
-	else
-	{
-		data->x_ray = data->x_vert;
-		data->y_ray = data->y_vert;
-		data->ray_distance = vert_distance;
-		mlx_draw_line(data->imgmap, data->player->x_map, data->player->y_map,
-					  data->x_vert, data->y_vert, get_rgba(150, 244, 255, 255));
-	}
+	check_closest_distance(data, hori_distance, vert_distance);
 }
 
 void	draw_rays(t_data *data)
@@ -104,7 +87,6 @@ void	draw_rays(t_data *data)
 	num_rays = WIDTH;
 	ray_angle = data->player->direction - (fov_angle / 2);
 	i = 0;
-
 	while (i < num_rays)
 	{
 		ray_angle = normalize_angle(ray_angle);

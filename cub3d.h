@@ -131,9 +131,9 @@ typedef struct s_floats
 }t_floats;
 
 // draw
+void check_walls(t_data *data, int is_horizontal);
 void draw_map2(t_data *data, int x, int y);
 void draw_walls(t_data *data, int index);
-void draw_player(t_data *data);
 void draw_map(t_data *data);
 void blacked(t_data *data);
 // render
@@ -143,19 +143,19 @@ void calculate_vertical(t_data *data, float ray_angle);
 void draw_rays_color(t_data *data);
 void draw_rays(t_data *data);
 // check
-// void check_closest_distance(t_data *data, float hori_distance, float vert_distance);
-float normalize_angle(float ray_angle);
-void apply_direction(t_data *data, char direction, int *x, int *y);
-void check_walls(t_data *data, int is_horizontal);
+void check_closest_distance(t_data *data, float hori_distance, float vert_distance);
+void	apply_direction2(t_data *data, char direction, int *x, int *y);
+void	apply_direction(t_data *data, char direction, int *x, int *y);
 int inside_map(t_data *data, char direction);
+float normalize_angle(float ray_angle);
 // dda
-char **lst_to_2darr(t_list *lst);
-void make_map(t_data *data, int fd);
 void mlx_draw_line(mlx_image_t *img, int x1, int y1, int x2, int y2, uint32_t color);
-int get_rgba(int r, int g, int b, int a);
 t_player *assign_player(int x, int y, int color);
-void find_player(t_data *data);
-void    free_game(t_data *data);
+int	get_rgba(int r, int g, int b, int a);
+void	make_map(t_data *data, int fd);
+char	**lst_to_2darr(t_list *lst);
+void	find_player(t_data *data);
+void	free_game(t_data *data);
 //parsing
 void draw_map(t_data *data);
 void draw_player(t_data *data);

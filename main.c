@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 18:05:22 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/12/01 00:53:05 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/12/02 18:33:14 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	ft_hook(void *param)
 		data->player->direction += 1;
 	blacked(data);
 	draw_map(data);
-	draw_player(data);
 	draw_rays(data);
 }
 

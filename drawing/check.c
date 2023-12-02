@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 19:44:24 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/11/29 22:34:47 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/12/02 18:32:24 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	check_closest_distance(t_data *data, float hori_distance,
 		data->x_ray = data->x_hori;
 		data->y_ray = data->y_hori;
 		data->ray_distance = hori_distance;
-		mlx_draw_line(data->img, data->player->x_map, data->player->y_map,
+		mlx_draw_line(data->imgmap, data->player->x_map, data->player->y_map,
 			data->x_hori, data->y_hori, get_rgba(150, 244, 255, 255));
 	}
 	else
@@ -41,7 +41,7 @@ void	check_closest_distance(t_data *data, float hori_distance,
 		data->x_ray = data->x_vert;
 		data->y_ray = data->y_vert;
 		data->ray_distance = vert_distance;
-		mlx_draw_line(data->img, data->player->x_map, data->player->y_map,
+		mlx_draw_line(data->imgmap, data->player->x_map, data->player->y_map,
 			data->x_vert, data->y_vert, get_rgba(150, 244, 255, 255));
 	}
 }
@@ -61,32 +61,24 @@ int	inside_map(t_data *data, char direction)
 	return (0);
 }
 
-void	check_walls(t_data *data, int is_horizontal)
+void	apply_direction2(t_data *data, char direction, int *x, int *y)
 {
-	int	x;
-	int	y;
+	float	delta_distance;
 
-	x = data->x_ray / TILE_SIZE;
-	y = data->y_ray / TILE_SIZE;
-	while (1)
+	delta_distance = 1.9;
+	if (direction == 'S')
 	{
-		if (x < 0 || x >= data->width || y < 0 || y >= data->height
-			|| data->map[y][x] == '1')
-			break ;
-		data->x_ray += data->x_step;
-		data->y_ray += data->y_step;
-		x = data->x_ray / TILE_SIZE;
-		y = data->y_ray / TILE_SIZE;
+		*x = (data->player->x_map - cos(data->player->direction * (M_PI / 180))
+				* delta_distance) / TILE_SIZE;
+		*y = (data->player->y_map - sin(data->player->direction * (M_PI / 180))
+				* delta_distance) / TILE_SIZE;
 	}
-	if (is_horizontal)
+	else if (direction == 'D')
 	{
-		data->x_hori = data->x_ray;
-		data->y_hori = data->y_ray;
-	}
-	else
-	{
-		data->x_vert = data->x_ray;
-		data->y_vert = data->y_ray;
+		*x = (data->player->x_map - sin(data->player->direction * (M_PI / 180))
+				* delta_distance) / TILE_SIZE;
+		*y = (data->player->y_map + cos(data->player->direction * (M_PI / 180))
+				* delta_distance) / TILE_SIZE;
 	}
 }
 
@@ -102,13 +94,6 @@ void	apply_direction(t_data *data, char direction, int *x, int *y)
 		*y = (data->player->y_map + (sin(data->player->direction * (M_PI / 180))
 					* delta_distance)) / TILE_SIZE;
 	}
-	else if (direction == 'S')
-	{
-		*x = (data->player->x_map - cos(data->player->direction * (M_PI / 180))
-				* delta_distance) / TILE_SIZE;
-		*y = (data->player->y_map - sin(data->player->direction * (M_PI / 180))
-				* delta_distance) / TILE_SIZE;
-	}
 	else if (direction == 'A')
 	{
 		*x = (data->player->x_map + sin(data->player->direction * (M_PI / 180))
@@ -116,11 +101,5 @@ void	apply_direction(t_data *data, char direction, int *x, int *y)
 		*y = (data->player->y_map - cos(data->player->direction * (M_PI / 180))
 				* delta_distance) / TILE_SIZE;
 	}
-	else if (direction == 'D')
-	{
-		*x = (data->player->x_map - sin(data->player->direction * (M_PI / 180))
-				* delta_distance) / TILE_SIZE;
-		*y = (data->player->y_map + cos(data->player->direction * (M_PI / 180))
-				* delta_distance) / TILE_SIZE;
-	}
+	apply_direction2(data, direction, x, y);
 }
