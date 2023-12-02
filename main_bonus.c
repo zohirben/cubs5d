@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 18:05:22 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/12/02 19:57:53 by zbenaiss         ###   ########.fr       */
+/*   Updated: 2023/12/02 19:57:35 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,9 @@ void	ft_hook(void *param)
 		data->player->direction -= 1;
 	else if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
 		data->player->direction += 1;
-	data->bonus = 0;
+	data->bonus = 1;
 	blacked(data);
+	draw_map(data);
 	draw_rays(data);
 }
 

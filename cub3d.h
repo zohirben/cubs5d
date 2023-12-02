@@ -55,6 +55,7 @@ typedef struct s_data
     float x_vert;
     float y_vert;
     float ray_distance;
+	int bonus;
     int is_hor;
     mlx_image_t	*imgmap;
 	mlx_texture_t *txt;
