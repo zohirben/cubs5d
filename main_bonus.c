@@ -6,7 +6,7 @@
 /*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 21:18:37 by sbellafr          #+#    #+#             */
-/*   Updated: 2023/12/03 23:11:53 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/12/04 00:42:09 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,7 +244,7 @@ void	ft_mlx_begin(t_playerme *playerme, t_textures *t, t_data *data,
 	data->player->x_map = (data->player->x * TILE_SIZE) + (TILE_SIZE / 2);
 	data->player->y_map = (data->player->y * TILE_SIZE) + (TILE_SIZE / 2);
 	data->txt = mlx_load_png(t->so);
-	data->txt1 = mlx_load_png(t->we);
+	data->txt1 = mlx_load_png(t->we);	
 	data->txt2 = mlx_load_png(t->so);
 	data->txt3 = mlx_load_png(t->no);
 	data->txt4 = mlx_load_png(t->ea);
