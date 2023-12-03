@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/12 09:00:30 by sbellafr          #+#    #+#             */
-/*   Updated: 2023/12/03 23:03:36 by sbellafr         ###   ########.fr       */
+/*   Created: 2023/12/03 21:18:37 by sbellafr          #+#    #+#             */
+/*   Updated: 2023/12/03 23:08:22 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 void	key_movements(t_data *data, float delta_distance)
 {
 	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
+	{
 		mlx_close_window(data->mlx);
+	}
 	else if (mlx_is_key_down(data->mlx, MLX_KEY_A) && inside_map(data,
 			'A') != 1)
-	{ 
+	{
 		data->player->x_map += sin(data->player->direction * (M_PI / 180))
 			* delta_distance;
 		data->player->y_map -= cos(data->player->direction * (M_PI / 180))
@@ -50,6 +52,25 @@ void	key_movements(t_data *data, float delta_distance)
 	}
 }
 
+#include <math.h>
+
+void draw_player(t_data *data)
+{
+    int radius = 2; // Adjust the radius of the circle as needed
+    int i, j;
+
+    for (int angle = 0; angle <= 360; angle += 10)
+    {
+        float radian = angle * (M_PI / 180.0);
+        i = data->player->x_map + radius * cos(radian);
+        j = data->player->y_map + radius * sin(radian);
+        
+        mlx_put_pixel(data->imgmap, i, j, get_rgba(187, 230, 228, 255));
+    }
+}
+
+
+
 void	ft_hook(void *param)
 {
 	t_data	*data;
@@ -62,16 +83,11 @@ void	ft_hook(void *param)
 		data->player->direction -= 1;
 	else if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
 		data->player->direction += 1;
+	data->bonus = 1;
 	blacked(data);
-	if(!data->bonus)
 	draw_map(data);
+	draw_player(data);
 	draw_rays(data);
-}
-
-void	draw_player(t_data *data)
-{
-	mlx_put_pixel(data->imgmap, data->player->x_map, data->player->y_map,
-			get_rgba(187, 230, 228, 255));
 }
 
 void	error(void)
@@ -143,6 +159,7 @@ void	check_textures_rgb(t_textures *t)
 		i++;
 	}
 }
+
 char	*ft_textures(char *str, int i)
 {
 	char	*returned;
@@ -162,8 +179,7 @@ char	*ft_textures(char *str, int i)
 	returned[j] = '\0';
 	return (returned);
 }
-int	textures_checker(char **strs, t_color *floor, t_color *ceiling, t_var *vars,
-		t_textures *t)
+int textures_checker(char **strs, t_color *floor, t_color *ceiling, t_var *vars, t_textures *t)
 {
 	vars->count = 0;
 	while (strs[vars->i])
@@ -171,17 +187,13 @@ int	textures_checker(char **strs, t_color *floor, t_color *ceiling, t_var *vars,
 		vars->j = 0;
 		while (strs[vars->i][vars->j])
 		{
-			if (strs[vars->i][vars->j] == 'N' && strs[vars->i][vars->j
-				+ 1] == 'O')
+			if (strs[vars->i][vars->j] == 'N' && strs[vars->i][vars->j + 1] == 'O')
 				vars->count += check_no(strs, vars, t);
-			else if (strs[vars->i][vars->j] == 'S' && strs[vars->i][vars->j
-					+ 1] == 'O')
+			else if (strs[vars->i][vars->j] == 'S' && strs[vars->i][vars->j + 1] == 'O')
 				vars->count += check_so(strs, vars, t);
-			else if (strs[vars->i][vars->j] == 'E' && strs[vars->i][vars->j
-					+ 1] == 'A')
+			else if (strs[vars->i][vars->j] == 'E' && strs[vars->i][vars->j + 1] == 'A')
 				vars->count += check_ea(strs, vars, t);
-			else if (strs[vars->i][vars->j] == 'W' && strs[vars->i][vars->j
-					+ 1] == 'E')
+			else if (strs[vars->i][vars->j] == 'W' && strs[vars->i][vars->j + 1] == 'E')
 				vars->count += check_we(strs, vars, t);
 			else if (strs[vars->i][vars->j] == 'F')
 				vars->count += rgb_f(strs, floor, t, vars);
@@ -191,19 +203,19 @@ int	textures_checker(char **strs, t_color *floor, t_color *ceiling, t_var *vars,
 		}
 		vars->i++;
 	}
-	return (vars->count);
+	return vars->count;
 }
-int	check_textures(char **strs, t_textures *t, t_color *floor, t_color *ceiling)
+int check_textures(char **strs, t_textures *t, t_color *floor, t_color *ceiling)
 {
-	t_var	vars;
-	int		count;
-	int		signal;
-
+	t_var vars;
 	vars.i = 0;
 	vars.j = 0;
 	vars.last_line = 0;
-	signal = 0;
+
+	int count;
+	int signal = 0;
 	count = 0;
+
 	count = textures_checker(strs, floor, ceiling, &vars, t);
 	if (count != 6)
 	{
@@ -279,16 +291,16 @@ char	**fill_strs(int len, char *str)
 	}
 	return (strs);
 }
-int	main(int ac, char **av)
+int main(int ac, char **av)
 {
-	char		**strs;
-	int			i;
-	t_textures	t;
-	t_color		floor;
-	t_color		ceiling;
-	t_data		data;
-	t_window	win;
-	t_playerme	playerme;
+	char **strs;
+	int i;
+	t_textures t;
+	t_color floor;
+	t_color ceiling;
+	t_data data;
+	t_window win;
+	t_playerme playerme;
 
 	i = 0;
 	if (ac == 2)
