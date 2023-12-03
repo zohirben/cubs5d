@@ -14,18 +14,18 @@ CC = cc
 CFLAGS =
 RM = rm -rf
 INCLUDES = -Iinclude ./MLX42/libmlx42.a -lglfw -L"/Users/sbellafr/.brew/opt/glfw/lib"
-INCLUDE =
+
 .SILENT:
 
 all: $(NAME)
 	@echo "\033[104mThe mandatory part is made\033[0m"
 
 bonus: $(SRC_BONUS)
-	make bonus -C libft
+	make  -C libft
 	$(CC) -Ilibft $(INCLUDES) -framework Cocoa -framework OpenGL -framework IOKit $(CFLAGS) ./libft/libft.a $(SRC_BONUS) -o $(NAME_BONUS)
 
 $(NAME): $(SRC_MAIN)
-	make bonus -C libft
+	make  -C libft
 	$(CC) -Ilibft $(INCLUDES) -framework Cocoa -framework OpenGL -framework IOKit $(CFLAGS) ./libft/libft.a $(SRC_MAIN) -o $(NAME)
 
 %.o: %.c
@@ -35,6 +35,7 @@ clean:
 	@rm -rf $(OBJS)
 
 fclean: clean
-	@rm -rf $(NAME) $(NAME_BONUS)
+	@rm -rf $(NAME) $(NAME_BONUS) 
+	make fclean  -C libft
 
 re: fclean all
