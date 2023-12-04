@@ -6,7 +6,7 @@
 /*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 01:50:11 by sbellafr          #+#    #+#             */
-/*   Updated: 2023/12/04 19:26:34 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/12/04 21:06:11 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void	check_map_len(char	**strs, int len, int i, t_window *win)
 	j = 0;
 	while (strs[j])
 		j++;
-	len = j - i + 1;
-	if (len > i)
+	len = j;
+	if (len >= i)
 		win->map.mapo = (char **)ft_calloc(len + 1, sizeof(char *));
 	else
 	{

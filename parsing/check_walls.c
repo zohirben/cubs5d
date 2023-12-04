@@ -6,7 +6,7 @@
 /*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 19:41:50 by sbellafr          #+#    #+#             */
-/*   Updated: 2023/12/04 19:55:21 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/12/04 20:59:19 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	check_right_wall(char	**strs)
 	int	i;
 
 	i = 1;
-	while (strs[i][0] && strs[i][0] != '1')
+	while (strs[i][0] && strs[i][0] != '1' && strs[i][0] != ' ')
 	{
 		if (strs[i][0] != '\n')
 		{
