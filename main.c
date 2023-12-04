@@ -6,7 +6,7 @@
 /*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 09:00:30 by sbellafr          #+#    #+#             */
-/*   Updated: 2023/12/04 00:48:41 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/12/04 12:15:29 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,7 @@ void	textures_manage2(t_data *data, t_textures *t)
 		printf("check textures files\n");
 		exit(2);
 	}
+	printf("-%s-\n", &t->so[ft_strlen(t->so) - 4]);
 	data->txt3 = mlx_load_png(t->no);
 	if (!data->txt3)
 	{
