@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
+/*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 19:36:42 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/12/02 18:32:40 by zbenaiss         ###   ########.fr       */
+/*   Updated: 2023/12/04 19:07:54 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	draw_walls(t_data *data, int index)
 	x_start = (float)index;
 	x_end = (float)index;
 	wh = (HEIGHT / data->ray_distance) * TILE_SIZE;
-	y_start = (HEIGHT / 2) - (wh / 2);
+	y_start = (HEIGHT / 2) - (wh / 2); 
 	y_end = y_start + wh;
 	ft_draw_textures(data, x_start, y_start, y_end);
 }

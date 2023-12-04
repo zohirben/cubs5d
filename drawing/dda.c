@@ -6,50 +6,27 @@
 /*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 19:48:07 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/12/02 18:44:49 by zbenaiss         ###   ########.fr       */
+/*   Updated: 2023/12/04 19:47:04 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	mlx_draw_line(mlx_image_t *img, int x1, int y1, int x2, int y2,
-		uint32_t color)
-{
-	int	dx;
-	int	dy;
-	int	sx;
-	int	sy;
-	int	err;
-	int	e2;
-
-	dx = abs(x2 - x1);
-	dy = -abs(y2 - y1);
-	sx = x1 < x2 ? 1 : -1;
-	sy = y1 < y2 ? 1 : -1;
-	err = dx + dy;
-	while (1)
-	{
-		if (x1 < WIDTH && y1 < HEIGHT && x1 > 0 && y1 > 0)
-			mlx_put_pixel(img, x1, y1, color);
-		if (x1 == x2 && y1 == y2)
-			break ;
-		e2 = 2 * err;
-		if (e2 >= dy)
-		{
-			err += dy;
-			x1 += sx;
-		}
-		if (e2 <= dx)
-		{
-			err += dx;
-			y1 += sy;
-		}
-	}
-}
-
 int	get_rgba(int r, int g, int b, int a)
 {
 	return (r << 24 | g << 16 | b << 8 | a);
+}
+
+t_player	*assign_player(int x, int y, int color)
+{
+	t_player	*player;
+
+	player = malloc(sizeof(t_player));
+	if (!player)
+		exit(1);
+	player->x = x;
+	player->y = y;
+	return (player);
 }
 
 void	find_player(t_data *data)
@@ -75,28 +52,44 @@ void	find_player(t_data *data)
 	}
 }
 
-t_player	*assign_player(int x, int y, int color)
+void	key_movements2(t_data *data, float delta_distance)
 {
-	t_player	*player;
-
-	player = malloc(sizeof(t_player));
-	if (!player)
-		exit(1);
-	player->x = x;
-	player->y = y;
-	return (player);
-}
-
-void	free_game(t_data *data)
-{
-	int	i;
-
-	free(data->dda);
-	i = 0;
-	while (data->map[i] != NULL)
+	if (mlx_is_key_down(data->mlx, MLX_KEY_W) && inside_map(data,
+			'W') != 1)
 	{
-		free(data->map[i]);
-		i++;
+		data->player->x_map += cos(data->player->direction * (M_PI / 180))
+			* delta_distance;
+		data->player->y_map += sin(data->player->direction * (M_PI / 180))
+			* delta_distance;
 	}
-	free(data->map);
+	else if (mlx_is_key_down(data->mlx, MLX_KEY_S) && inside_map(data,
+			'S') != 1)
+	{
+		data->player->x_map -= cos(data->player->direction * (M_PI / 180))
+			* delta_distance;
+		data->player->y_map -= sin(data->player->direction * (M_PI / 180))
+			* delta_distance;
+	}
+}
+void	key_movements(t_data *data, float delta_distance)
+{
+	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(data->mlx);
+	if (mlx_is_key_down(data->mlx, MLX_KEY_A) && inside_map(data,
+			'A') != 1)
+	{
+		data->player->x_map += sin(data->player->direction * (M_PI / 180))
+			* delta_distance;
+		data->player->y_map -= cos(data->player->direction * (M_PI / 180))
+			* delta_distance;
+	}
+	else if (mlx_is_key_down(data->mlx, MLX_KEY_D) && inside_map(data,
+			'D') != 1)
+	{
+		data->player->x_map -= sin(data->player->direction * (M_PI / 180))
+			* delta_distance;
+		data->player->y_map += cos(data->player->direction * (M_PI / 180))
+			* delta_distance;
+	}
+	key_movements2(data, delta_distance);
 }

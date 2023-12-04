@@ -6,11 +6,18 @@
 /*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 01:50:11 by sbellafr          #+#    #+#             */
-/*   Updated: 2023/11/30 23:00:21 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/12/04 19:26:34 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+int	checker_0_p(char c)
+{
+	if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
+		return (1);
+	return (0);
+}
 
 char	**fill_mapo(char **strs, int i, t_window *win)
 {

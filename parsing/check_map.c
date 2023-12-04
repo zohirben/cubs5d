@@ -6,7 +6,7 @@
 /*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 23:31:08 by sbellafr          #+#    #+#             */
-/*   Updated: 2023/11/28 21:25:18 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/12/04 19:25:59 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,31 +67,31 @@ void	check_last_zero(char **strs, int i)
 	check_tab(strs);
 }
 
-void	check_zero_surrond(char **strs)
+void	check_zero_surrond(char **s)
 {
 	int		k;
-	t_var	vars;
+	t_var	v;
 
-	vars.j = 0;
-	vars.i = 0;
+	v.j = 0;
+	v.i = 0;
 	k = 0;
-	while (strs[k])
+	while (s[k])
 		k++;
-	while (vars.i < k - 1)
+	while (v.i < k - 1)
 	{
-		vars.j = -1;
-		while (strs[vars.i][++vars.j])
+		v.j = -1;
+		while (s[v.i][++v.j])
 		{
-			if (strs[vars.i][vars.j] && strs[vars.i][vars.j] == '0')
+			if (s[v.i][v.j] && checker_0_p(s[v.i][v.j]))
 			{
-				if (strs[vars.i][vars.j] && zero_one(strs, vars.i, vars.j))
+				if (s[v.i][v.j] && zero_one(s, v.i, v.j))
 				{
-					printf("Error check the zero\n");
+					printf("Error check the zero or the player place\n");
 					exit(2);
 				}
 			}
 		}
-		vars.i++;
+		v.i++;
 	}
-	check_last_zero(strs, vars.i);
+	check_last_zero(s, v.i);
 }
