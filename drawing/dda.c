@@ -6,7 +6,7 @@
 /*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 19:48:07 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/12/04 21:41:22 by zbenaiss         ###   ########.fr       */
+/*   Updated: 2023/12/04 21:53:05 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	get_rgba(int r, int g, int b, int a)
 {
 	return (r << 24 | g << 16 | b << 8 | a);
 }
+
 t_player	*assign_player(int x, int y, int color)
 {
 	t_player	*player;
@@ -27,6 +28,7 @@ t_player	*assign_player(int x, int y, int color)
 	player->y = y;
 	return (player);
 }
+
 void	find_player(t_data *data)
 {
 	int	i;
@@ -69,6 +71,7 @@ void	key_movements2(t_data *data, float delta_distance)
 			* delta_distance;
 	}
 }
+
 void	key_movements(t_data *data, float delta_distance)
 {
 	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
