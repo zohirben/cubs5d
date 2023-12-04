@@ -6,12 +6,11 @@
 /*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 09:00:30 by sbellafr          #+#    #+#             */
-/*   Updated: 2023/12/04 21:36:36 by zbenaiss         ###   ########.fr       */
+/*   Updated: 2023/12/04 21:55:56 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
 
 void	ft_hook(void *param)
 {
@@ -31,19 +30,24 @@ void	ft_hook(void *param)
 	draw_rays(data);
 }
 
-void draw_player(t_data *data)
+void	draw_player(t_data *data)
 {
-    int radius = 2;
-    int i, j;
+	float	radian;
+	int		radius;
+	int		i;
+	int		j;
+	int		angle;
 
-    for (int angle = 0; angle <= 360; angle += 10)
-    {
-        float radian = angle * (M_PI / 180.0);
-        i = data->player->x_map + radius * cos(radian);
-        j = data->player->y_map + radius * sin(radian);
-        
-        mlx_put_pixel(data->imgmap, i, j, get_rgba(187, 230, 228, 255));
-    }
+	radius = 2;
+	angle = 0;
+	while (angle <= 360)
+	{
+		radian = angle * (M_PI / 180.0);
+		i = data->player->x_map + radius * cos(radian);
+		j = data->player->y_map + radius * sin(radian);
+		mlx_put_pixel(data->imgmap, i, j, get_rgba(187, 230, 228, 255));
+		angle += 10;
+	}
 }
 
 void	get_angle(char c, t_playerme *player)
