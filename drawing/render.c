@@ -6,7 +6,7 @@
 /*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 19:40:40 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/12/02 16:56:04 by zbenaiss         ###   ########.fr       */
+/*   Updated: 2023/12/04 22:06:02 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void	calculate_vertical(t_data *data, float ray_angle)
 		return ;
 	if (ray_angle > 90 && ray_angle < 270)
 	{
-		data->x_ray = (((int)data->player->x_map / TILE_SIZE) - 0.00001)
-			* TILE_SIZE;
+		data->x_ray = (((int)data->player->x_map / TILE_SIZE))
+			* TILE_SIZE - 0.002;
 		data->x_step = -TILE_SIZE;
 	}
 	else

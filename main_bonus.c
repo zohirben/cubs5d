@@ -6,7 +6,7 @@
 /*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 21:18:37 by sbellafr          #+#    #+#             */
-/*   Updated: 2023/12/04 21:37:57 by zbenaiss         ###   ########.fr       */
+/*   Updated: 2023/12/04 22:01:43 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,8 @@ int	main(int ac, char **av)
 		ft_mlx_begin(&t, &data, &win);
 	}
 	else
+	{
+		printf("check arguments\n");
 		return (1);
+	}
 }
