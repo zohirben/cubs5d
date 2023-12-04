@@ -13,7 +13,7 @@ NAME_BONUS = cub3d_bonus
 CC = cc
 CFLAGS =
 RM = rm -rf
-INCLUDES = -Iinclude ./MLX42/libmlx42.a -lglfw -L"/Users/sbellafr/.brew/opt/glfw/lib"
+INCLUDES = -Iinclude ./MLX42/libmlx42.a -lglfw -L"/Users/zbenaiss/goinfre/homebrew/opt/glfw/lib"
 
 .SILENT:
 

@@ -3,21 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 19:44:24 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/12/03 23:03:02 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/12/04 21:41:10 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-float normalize_angle(float ray_angle)
+float	normalize_angle(float ray_angle)
 {
-	if (ray_angle < 0)
-		return (ray_angle + 360);
-	if (ray_angle > 360)
-		return (ray_angle - 360);
+	if (ray_angle <= 0)
+		while (ray_angle <= 0)
+			ray_angle += 360;
+	else if (ray_angle >= 360)
+		while (ray_angle >= 360)
+			ray_angle -= 360;
 	return (ray_angle);
 }
 
@@ -80,7 +82,7 @@ void	apply_direction(t_data *data, char direction, int *x, int *y)
 {
 	float	delta_distance;
 
-	delta_distance = 1.9;
+	delta_distance = 3;
 	if (direction == 'W')
 	{
 		*x = (data->player->x_map + cos(data->player->direction * (M_PI / 180))

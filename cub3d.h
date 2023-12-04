@@ -149,6 +149,8 @@ void draw_walls(t_data *data, int index);
 void check_walls(t_data *data, int is_horizontal);
 void blacked(t_data *data);
 void draw_rays(t_data *data);
+void	key_movements(t_data *data, float delta_distance);
+void	key_movements2(t_data *data, float delta_distance);
 int textures_checker(char **strs, t_var *v, t_textures *t, t_data *data);
 int check_textures(char **strs, t_textures *t, t_data *data);
 void check_textures_rgb(t_textures *t);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 19:48:07 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/12/03 23:26:50 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/12/04 21:41:22 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,45 @@ void	find_player(t_data *data)
 		i++;
 	}
 }
-// void	free_game(t_data *data)
-// {
-// 	int	i;
 
-// 	free(data->dda);
-// 	i = 0;
-// 	while (data->map[i] != NULL)
-// 	{
-// 		free(data->map[i]);
-// 		i++;
-// 	}
-// 	free(data->map);
-// }
+void	key_movements2(t_data *data, float delta_distance)
+{
+	if (mlx_is_key_down(data->mlx, MLX_KEY_W) && inside_map(data,
+			'W') != 1)
+	{
+		data->player->x_map += cos(data->player->direction * (M_PI / 180))
+			* delta_distance;
+		data->player->y_map += sin(data->player->direction * (M_PI / 180))
+			* delta_distance;
+	}
+	else if (mlx_is_key_down(data->mlx, MLX_KEY_S) && inside_map(data,
+			'S') != 1)
+	{
+		data->player->x_map -= cos(data->player->direction * (M_PI / 180))
+			* delta_distance;
+		data->player->y_map -= sin(data->player->direction * (M_PI / 180))
+			* delta_distance;
+	}
+}
+void	key_movements(t_data *data, float delta_distance)
+{
+	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(data->mlx);
+	if (mlx_is_key_down(data->mlx, MLX_KEY_A) && inside_map(data,
+			'A') != 1)
+	{
+		data->player->x_map += sin(data->player->direction * (M_PI / 180))
+			* delta_distance;
+		data->player->y_map -= cos(data->player->direction * (M_PI / 180))
+			* delta_distance;
+	}
+	else if (mlx_is_key_down(data->mlx, MLX_KEY_D) && inside_map(data,
+			'D') != 1)
+	{
+		data->player->x_map -= sin(data->player->direction * (M_PI / 180))
+			* delta_distance;
+		data->player->y_map += cos(data->player->direction * (M_PI / 180))
+			* delta_distance;
+	}
+	key_movements2(data, delta_distance);
+}

@@ -3,52 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zbenaiss <zbenaissa@1337.ma>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 09:00:30 by sbellafr          #+#    #+#             */
-/*   Updated: 2023/12/04 20:12:11 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/12/04 21:36:36 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	key_movements(t_data *data, float delta_distance)
-{
-	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(data->mlx);
-	else if (mlx_is_key_down(data->mlx, MLX_KEY_A) && inside_map(data,
-			'A') != 1)
-	{
-		data->player->x_map += sin(data->player->direction * (M_PI / 180))
-			* delta_distance;
-		data->player->y_map -= cos(data->player->direction * (M_PI / 180))
-			* delta_distance;
-	}
-	else if (mlx_is_key_down(data->mlx, MLX_KEY_D) && inside_map(data,
-			'D') != 1)
-	{
-		data->player->x_map -= sin(data->player->direction * (M_PI / 180))
-			* delta_distance;
-		data->player->y_map += cos(data->player->direction * (M_PI / 180))
-			* delta_distance;
-	}
-	else if (mlx_is_key_down(data->mlx, MLX_KEY_W) && inside_map(data,
-			'W') != 1)
-	{
-		data->player->x_map += cos(data->player->direction * (M_PI / 180))
-			* delta_distance;
-		data->player->y_map += sin(data->player->direction * (M_PI / 180))
-			* delta_distance;
-	}
-	else if (mlx_is_key_down(data->mlx, MLX_KEY_S) && inside_map(data,
-			'S') != 1)
-	{
-		data->player->x_map -= cos(data->player->direction * (M_PI / 180))
-			* delta_distance;
-		data->player->y_map -= sin(data->player->direction * (M_PI / 180))
-			* delta_distance;
-	}
-}
 
 void	ft_hook(void *param)
 {
@@ -88,11 +51,11 @@ void	get_angle(char c, t_playerme *player)
 	if (c == 'E')
 		player->angle = 0;
 	else if (c == 'N')
-		player->angle = 90;
+		player->angle = 270;
 	else if (c == 'W')
 		player->angle = 180;
 	else if (c == 'S')
-		player->angle = 270;
+		player->angle = 90;
 }
 
 void	get_player_location(t_playerme *player, char **mapo)
