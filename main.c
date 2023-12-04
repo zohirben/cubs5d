@@ -6,7 +6,7 @@
 /*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 09:00:30 by sbellafr          #+#    #+#             */
-/*   Updated: 2023/12/04 17:00:53 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:46:51 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,11 @@ void	get_angle(char c, t_playerme *player)
 	if (c == 'E')
 		player->angle = 0;
 	else if (c == 'N')
-		player->angle = PI / 2;
+		player->angle = 90;
 	else if (c == 'W')
-		player->angle = PI;
+		player->angle = 180;
 	else if (c == 'S')
-		player->angle = PI * 3 / 2;
+		player->angle = 270;
 }
 
 void	get_player_location(t_playerme *player, char **mapo)

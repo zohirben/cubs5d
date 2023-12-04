@@ -6,7 +6,7 @@
 /*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 19:36:42 by zbenaiss          #+#    #+#             */
-/*   Updated: 2023/12/03 19:23:00 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/12/04 19:07:54 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,11 @@ void	blacked(t_data *data)
 		while (x < WIDTH)
 		{
 			if (y < line)
-				color = get_rgba(255, 255,
-						220, 255);
+				color = get_rgba(data->ceiling.r, data->ceiling.g,
+						data->ceiling.b, 255);
 			else
-				color = get_rgba(210, 255,
-						220, 255);
+				color = get_rgba(data->floor.r, data->floor.g, data->floor.b,
+						255);
 			mlx_put_pixel(data->img, x, y, color);
 			x++;
 		}
