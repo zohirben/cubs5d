@@ -158,5 +158,6 @@ void ft_hook(void *param);
 void get_player_location(t_playerme *player, char **mapo);
 int ft_count_map(char *map);
 char **fill_strs(int len, char *str);
+int		checker_0_p(char c);
 
 #endif
