@@ -6,11 +6,45 @@
 /*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 01:50:11 by sbellafr          #+#    #+#             */
-/*   Updated: 2023/12/04 12:40:50 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/12/04 16:54:24 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+char	**fill_mapo(char **strs, int i, t_window *win)
+{
+	int	j;
+
+	j = 0;
+	while (strs[i])
+	{
+		if (ft_strlen(strs[i]) > win->map.lenght)
+			win->map.lenght = ft_strlen(strs[i]);
+		win->map.mapo[j] = ft_strdup(strs[i]);
+		free(strs[i]);
+		j++;
+		i++;
+	}
+	return (win->map.mapo);
+}
+
+void	check_map_len(char	**strs, int len, int i, t_window *win)
+{
+	int	j;
+
+	j = 0;
+	while (strs[j])
+		j++;
+	len = j - i + 1;
+	if (len > i)
+		win->map.mapo = (char **)ft_calloc(len + 1, sizeof(char *));
+	else
+	{
+		printf("Error check map\n");
+		exit(2);
+	}
+}
 
 void	ft_start(int i, char **strs, t_window *win)
 {
@@ -23,31 +57,12 @@ void	ft_start(int i, char **strs, t_window *win)
 	dtrsize = 0;
 	win->map.wide = 0;
 	win->map.lenght = 0;
-	j = 0;
-	while (strs[j])
-		j++;
-	len = j - i + 1;
-	if (len > i)
-		win->map.mapo = (char **)ft_calloc(len + 1, sizeof(char *));
-	else
-	{
-		printf("Error check map\n");
-		exit(2);
-	}
-	j = 0;
+	check_map_len(strs, len, i, win);
 	while (strs[i + 1] && strs[i + 1][0] == '\n')
 		i++;
 	i++;
 	check_tab(strs);
-	while (strs[i])
-	{
-		if (ft_strlen(strs[i]) > win->map.lenght)
-			win->map.lenght = ft_strlen(strs[i]);
-		win->map.mapo[j] = ft_strdup(strs[i]);
-		free(strs[i]);
-		j++;
-		i++;
-	}
+	win->map.mapo = fill_mapo(strs, i, win);
 	i = 0;
 	j = 0;
 	while (win->map.mapo[i])

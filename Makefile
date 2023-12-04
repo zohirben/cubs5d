@@ -1,12 +1,12 @@
 SRC_MAIN = main.c drawing/check.c drawing/dda.c drawing/draw.c drawing/render.c \
 	parsing/check_map.c parsing/check_textures.c parsing/check_rgb.c parsing/ft_rgb_insert.c parsing/ft_rgb_c_insert.c \
-	textures/draw_textures.c textures/textures_move.c parsing/check_walls.c parsing/check_elements.c \
-	parsing/ft_separate_map.c
+	textures/draw_textures.c textures/textures_move.c parsing/check_walls.c parsing/check_elements.c  parsing/begin_text.c\
+	parsing/ft_separate_map.c parsing/fill.c \
 
 SRC_BONUS = main_bonus.c drawing/check.c drawing/dda.c drawing/draw.c drawing/render.c \
 	parsing/check_map.c parsing/check_textures.c parsing/check_rgb.c parsing/ft_rgb_insert.c parsing/ft_rgb_c_insert.c \
-	textures/draw_textures.c textures/textures_move.c parsing/check_walls.c parsing/check_elements.c \
-	parsing/ft_separate_map.c
+	textures/draw_textures.c textures/textures_move.c parsing/check_walls.c parsing/check_elements.c parsing/begin_text.c \
+	parsing/ft_separate_map.c parsing/fill.c \
 
 NAME = cub3d
 NAME_BONUS = cub3d_bonus

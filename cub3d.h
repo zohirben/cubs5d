@@ -21,12 +21,31 @@ typedef struct s_player
 
 } t_player;
 
+typedef struct s_color
+{
+	int r;
+	int b;
+	int g;
+} t_color;
+
+typedef struct s_point
+{
+	double x;
+	double y;
+} t_point;
+
+typedef struct s_playerme
+{
+	t_point p;
+	double angle;
+} t_playerme;
+
 typedef struct s_data
 {
 	char **map;
 	int height;
 	int width;
-	int	bonus;
+	int bonus;
 	t_player *player;
 	float x_step;
 	float y_step;
@@ -40,12 +59,14 @@ typedef struct s_data
 	float ray_distance;
 	int is_hor;
 	mlx_image_t *imgmap;
+	t_color floor;
+	t_color ceiling;
 	mlx_texture_t *txt;
 	mlx_texture_t *txt1;
 	mlx_texture_t *txt2;
 	mlx_texture_t *txt3;
 	mlx_texture_t *txt4;
-
+	t_playerme *playerme;
 	mlx_t *mlx;
 	mlx_image_t *img;
 } t_data;
@@ -59,13 +80,6 @@ typedef struct s_textures
 	char *c;
 
 } t_textures;
-
-typedef struct s_color
-{
-	int r;
-	int b;
-	int g;
-} t_color;
 
 typedef struct s_map
 {
@@ -84,18 +98,6 @@ typedef struct s_window
 	mlx_t *mlx_ptr;
 	t_map map;
 } t_window;
-
-typedef struct s_point
-{
-	double x;
-	double y;
-} t_point;
-
-typedef struct s_playerme
-{
-	t_point p;
-	double angle;
-} t_playerme;
 
 typedef struct s_var
 {
@@ -123,12 +125,10 @@ int check_no(char **strs, t_var *vars, t_textures *t);
 int check_so(char **strs, t_var *vars, t_textures *t);
 int check_ea(char **strs, t_var *vars, t_textures *t);
 int check_we(char **strs, t_var *vars, t_textures *t);
-void ft_rgb(char *str, t_color *color);
-void ft_rgb_c(char *str, t_color *color);
-int rgb_f(char **strs, t_color *floor, t_textures *t, t_var *vars);
-int rgb_c(char **strs, t_color *floor, t_textures *t, t_var *vars);
-void ft_rgb(char *str, t_color *color);
-void ft_rgb_c(char *str, t_color *color);
+int rgb_f(char **strs, t_data *data, t_textures *t, t_var *vars);
+int rgb_c(char **strs, t_data *data, t_textures *t, t_var *vars);
+void ft_rgb(char *str, t_data *data);
+void ft_rgb_c(char *str, t_data *data);
 char *ft_textures(char *str, int i);
 void ft_draw_textures(t_data *data, float x_img, float y_start, float y_end);
 void check_map(char **strs);
@@ -145,10 +145,18 @@ void mlx_draw_line(mlx_image_t *img, int x1, int y1, int x2, int y2,
 				   uint32_t color);
 int get_rgba(int r, int g, int b, int a);
 void draw_map(t_data *data);
-void	draw_walls(t_data *data, int index);
-void	check_walls(t_data *data, int is_horizontal);
-void	blacked(t_data *data);
-void	draw_rays(t_data *data);
-
+void draw_walls(t_data *data, int index);
+void check_walls(t_data *data, int is_horizontal);
+void blacked(t_data *data);
+void draw_rays(t_data *data);
+int textures_checker(char **strs, t_var *v, t_textures *t, t_data *data);
+int check_textures(char **strs, t_textures *t, t_data *data);
+void check_textures_rgb(t_textures *t);
+void ft_mlx_begin(t_textures *t, t_data *data,
+				  t_window *win);
+void ft_hook(void *param);
+void get_player_location(t_playerme *player, char **mapo);
+int ft_count_map(char *map);
+char **fill_strs(int len, char *str);
 
 #endif
