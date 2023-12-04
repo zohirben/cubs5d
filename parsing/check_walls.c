@@ -6,7 +6,7 @@
 /*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 19:41:50 by sbellafr          #+#    #+#             */
-/*   Updated: 2023/11/28 21:25:45 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/12/04 19:55:21 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	check_first_line(char *str)
 		{
 			if (str[i] && !(str[i] == '1' || str[i] == '\n' || str[i] == ' '))
 			{
-				printf("Error\n");
+				printf("Error check Wall\n");
 				exit(0);
 			}
 			i++;

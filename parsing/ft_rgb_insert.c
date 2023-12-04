@@ -6,7 +6,7 @@
 /*   By: sbellafr <sbellafr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 23:48:41 by sbellafr          #+#    #+#             */
-/*   Updated: 2023/12/04 16:51:08 by sbellafr         ###   ########.fr       */
+/*   Updated: 2023/12/04 19:51:36 by sbellafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_rgb_one(char *str, int i, t_data *data)
 
 	buffer = malloc(4);
 	j = 0;
-	while (!ft_isalnum(str[i]))
+	while (str[i] && !ft_isalnum(str[i]))
 		i++;
 	if (ft_isalnum(str[i]))
 		while (str[i] && ft_isalnum(str[i]))
@@ -47,7 +47,7 @@ int	ft_rgb_two(char *str, int i, t_data *data)
 
 	buffer = malloc(4);
 	j = 0;
-	while (!ft_isalnum(str[i]))
+	while (str[i] && !ft_isalnum(str[i]))
 		i++;
 	if (ft_isalnum(str[i]))
 		while (str[i] && ft_isalnum(str[i]))
@@ -75,7 +75,7 @@ int	ft_rgb_three(char *str, int i, t_data *data)
 
 	buffer = malloc(4);
 	j = 0;
-	while (!ft_isalnum(str[i]))
+	while (str[i] && !ft_isalnum(str[i]))
 		i++;
 	if (ft_isalnum(str[i]))
 		while (str[i] && ft_isalnum(str[i]))
